@@ -1,0 +1,1346 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Smart MicroVision™ — Professional Demo</title>
+
+  <!-- Google Fonts for Premium Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Enhanced Styles with Glassmorphism 2.0, Animations & Gradients -->
+  <style>
+    :root {
+  --bg-primary: linear-gradient(135deg, #72bec8ff 0%, #7cc5d2ff 50%, #fce4ec 100%);
+  --bg-secondary: rgba(33, 150, 243, 0.08);
+  --card-glass: rgba(255, 255, 255, 0.92);
+  --card-glass-border: rgba(33, 150, 243, 0.25);
+  --card-glow: rgba(33, 150, 243, 0.35);
+  --accent-primary: linear-gradient(135deg, #00bcd4, #0097a7, #006064);
+  --accent-glow: rgba(0, 188, 212, 0.55);
+  --success: linear-gradient(135deg, #81c784, #66bb6a);
+  --danger: linear-gradient(135deg, #ef5350, #e53935);
+  --text-primary: #1a1a2a;
+  --text-secondary: rgba(26, 26, 42, 0.92);
+  --text-muted: rgba(26, 26, 42, 0.65);
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --shadow-main: 0 12px 35px -10px rgba(0, 0, 0, 0.12);
+  --shadow-glow: 0 0 25px rgba(0, 188, 212, 0.45);
+  --glass-backdrop: blur(18px);
+  --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-feature-settings: 'cv02', 'ss01';
+}
+
+
+    * { 
+      box-sizing: border-box; 
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: var(--bg-primary);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Animated Background */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(22, 20, 109, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(160, 18, 101, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(30, 132, 170, 0.3) 0%, transparent 50%);
+      animation: bgFloat 20s ease-in-out infinite;
+    }
+
+    @keyframes bgFloat {
+      0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.4; }
+      50% { transform: scale(1.05) rotate(180deg); opacity: 0.6; }
+    }
+
+    .app {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+      min-height: 100vh;
+    }
+
+    /* Enhanced Top Bar */
+    .top {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      background: var(--card-glass);
+      backdrop-filter: var(--glass-backdrop);
+      border: 1px solid var(--card-glass-border);
+      border-radius: 24px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-main);
+      animation: slideDown 0.6s ease-out;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .logo {
+  font-size: 32px;
+  background: var(--text-primary) !important;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 20px var(--accent-glow));
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+    @keyframes pulseGlow {
+      0%, 100% { filter: drop-shadow(0 0 20px var(--accent-glow)); }
+      50% { filter: drop-shadow(0 0 30px var(--accent-glow)); }
+    }
+
+   h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  color: #000000 !important;
+}
+
+
+    .muted { 
+      color: var(--text-muted); 
+      font-size: 14px; 
+      font-weight: 400;
+    }
+
+    /* Page Management */
+    .page { 
+      display: none; 
+      padding: 24px 0;
+      animation: fadeInUp 0.4s ease-out;
+    }
+    
+    .page.active { 
+      display: block; 
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Premium Home Cards */
+    .home-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .card {
+      position: relative;
+      height: 220px;
+      border-radius: 24px;
+      background: var(--card-glass);
+      backdrop-filter: var(--glass-backdrop);
+      border: 1px solid var(--card-glass-border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      overflow: hidden;
+      box-shadow: var(--shadow-main);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent-primary);
+      opacity: 0;
+      transition: var(--transition-fast);
+    }
+
+    .card:hover::before {
+      opacity: 0.08;
+    }
+
+    .card:hover {
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: var(--shadow-glow);
+      border-color: var(--accent-glow);
+    }
+
+    .card:active {
+      transform: translateY(-8px) scale(0.98);
+    }
+
+    .card .icon { 
+      font-size: 48px; 
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+      z-index: 1;
+      position: relative;
+    }
+
+    .card .title { 
+      font-size: 20px; 
+      font-weight: 800;
+      text-align: center;
+      z-index: 1;
+      position: relative;
+      background: var(--text-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .card .subtitle {
+      font-size: 14px;
+      opacity: 0.8;
+      text-align: center;
+      max-width: 200px;
+      z-index: 1;
+      position: relative;
+    }
+
+    /* Scanner Layout */
+    .scanner-wrap {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 28px;
+      align-items: start;
+      margin-top: 24px;
+    }
+
+    .panel {
+      background: var(--card-glass);
+      backdrop-filter: var(--glass-backdrop);
+      border: 1px solid var(--card-glass-border);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: var(--shadow-main);
+      transition: var(--transition-fast);
+    }
+
+    .panel:hover {
+      box-shadow: var(--shadow-glow);
+      border-color: var(--accent-glow);
+    }
+
+    .control { 
+      margin-bottom: 24px; 
+    }
+
+    label { 
+      display: block; 
+      font-weight: 700; 
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: var(--text-primary);
+    }
+
+    /* Segmented Control */
+    .seg {
+      display: flex;
+      gap: 0;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 4px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .seg button {
+      flex: 1;
+      border: 0;
+      padding: 12px 8px;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--text-secondary);
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition-fast);
+      font-size: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .seg button::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent-primary);
+      opacity: 0;
+      transition: var(--transition-fast);
+    }
+
+    .seg button.active {
+      background: var(--accent-primary);
+      color: #ffffff;
+      box-shadow: var(--shadow-glow);
+    }
+
+    .seg button.active::before {
+      opacity: 0;
+    }
+
+    .seg button:hover:not(.active) {
+      color: var(--text-primary);
+      transform: translateY(-1px);
+    }
+
+    /* Inputs */
+    input[type="file"] { 
+      width: 100%; 
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-primary);
+      backdrop-filter: blur(10px);
+    }
+
+    input[type="file"]::file-selector-button {
+      background: var(--accent-primary);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-right: 12px;
+    }
+
+    /* Camera */
+    video#cam {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    .camera-row { 
+      margin-top: 12px; 
+    }
+
+    .camera-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    /* Premium Buttons */
+    .btn {
+      padding: 14px 20px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--text-primary);
+      border: 1px solid var(--card-glass-border);
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 14px;
+      transition: var(--transition-smooth);
+      backdrop-filter: var(--glass-backdrop);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent-primary);
+      opacity: 0;
+      transition: var(--transition-fast);
+    }
+
+    .btn:hover::before {
+      opacity: 0.1;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-glow);
+      border-color: var(--accent-glow);
+    }
+
+    .btn.primary {
+      background: var(--accent-primary);
+      color: #ffffff;
+      border: none;
+      box-shadow: var(--shadow-main);
+    }
+
+    .btn.primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(110, 168, 255, 0.4);
+    }
+
+    .btn.primary.block, .btn.ghost.block { 
+      width: 100%; 
+    }
+
+    .btn.ghost { 
+      background: transparent; 
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    /* Canvas */
+    .canvas-wrap {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 460px;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-glass-border);
+      box-shadow: var(--shadow-main);
+    }
+
+    canvas {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 16px;
+      background: #000;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+      transition: var(--transition-fast);
+    }
+
+    /* Results Grid */
+    .results-grid {
+      display: grid;
+      grid-template-columns: 440px 1fr;
+      gap: 28px;
+      margin-top: 28px;
+    }
+
+    /* Score Card */
+    .score-card {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      padding: 24px;
+      border-radius: 24px;
+      background: var(--card-glass);
+      backdrop-filter: var(--glass-backdrop);
+      border: 1px solid var(--card-glass-border);
+      box-shadow: var(--shadow-main);
+    }
+
+    .score-ring {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 900;
+      background: conic-gradient(var(--success) 0deg 360deg, rgba(36,48,85,0.9) 360deg 360deg);
+      box-shadow: var(--shadow-glow);
+      transition: var(--transition-smooth);
+      position: relative;
+    }
+
+    .score-title {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 4px;
+      opacity: 0.9;
+    }
+
+    /* Badges */
+    .badge { 
+      padding: 10px 20px; 
+      border-radius: 999px; 
+      font-weight: 800;
+      font-size: 14px;
+      backdrop-filter: blur(10px);
+      border: 1px solid transparent;
+    }
+
+   .badge.ok {
+  background: rgba(46, 204, 113, 0.2);
+  color: #2ecc71;
+  border: 1px solid rgba(46, 204, 113, 0.4);
+  box-shadow: 0 0 20px rgba(46, 204, 113, 0.3);
+}
+
+.badge.bad {
+  background: rgba(255, 71, 87, 0.2);
+  color: #ff4757;
+  border: 1px solid rgba(255, 71, 87, 0.4);
+  box-shadow: 0 0 20px rgba(255, 71, 87, 0.3);
+}
+
+.badge.moderate {
+  background: rgba(255, 165, 0, 0.2);
+  color: #ffa502;
+  border: 1px solid rgba(255, 165, 0, 0.4);
+  box-shadow: 0 0 20px rgba(255, 165, 0, 0.3);
+}
+
+
+    /* Pills */
+    .pill {
+      display: inline-block;
+      margin: 8px 8px 0 0;
+      padding: 10px 16px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      font-weight: 700;
+      font-size: 13px;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-glass-border);
+      box-shadow: var(--shadow-main);
+      animation: pillSlide 0.3s ease-out;
+      transition: var(--transition-fast);
+    }
+
+    @keyframes pillSlide {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .pill.harmful {
+      background: rgba(255, 71, 87, 0.15);
+      color: var(--danger);
+      border-color: rgba(255, 71, 87, 0.3);
+      box-shadow: 0 0 15px rgba(255, 71, 87, 0.2);
+    }
+
+    .pill.useful {
+      background: rgba(46, 204, 113, 0.15);
+      color: var(--success);
+      border-color: rgba(46, 204, 113, 0.3);
+      box-shadow: 0 0 15px rgba(46, 204, 113, 0.2);
+    }
+
+    /* Lists */
+    ul {
+      margin: 16px 0 0;
+      padding-left: 20px;
+    }
+
+    ul li {
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      position: relative;
+    }
+
+    ul li::before {
+      content: '→';
+      position: absolute;
+      left: -20px;
+      color: var(--accent-primary);
+      font-weight: 700;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 40px;
+      color: var(--text-muted);
+      font-size: 13px;
+      text-align: center;
+      padding: 20px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .scanner-wrap, .results-grid { 
+        grid-template-columns: 1fr; 
+      }
+      .app { padding: 16px; }
+    }
+
+    @media (max-width: 768px) {
+      .home-grid { 
+        grid-template-columns: 1fr; 
+        gap: 16px;
+      }
+      .card { height: 180px; }
+      .top { flex-direction: column; text-align: center; padding: 16px; }
+    }
+
+    .hidden { display: none !important; }
+
+    /* Loading Spinner */
+    .loading {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top: 2px solid #ffffff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg" aria-hidden="true"></div>
+
+  <div class="app" role="application" aria-label="Smart MicroVision Professional Demo">
+    <div class="top">
+      <div class="logo"></div>
+      <div>
+        <h1>Smart MicroVision™</h1>
+        <div class="muted">AI-Powered Microbe Detection • Food & Environment Safety</div>
+      </div>
+    </div>
+
+    <section id="page-home" class="page active" aria-hidden="false">
+      <div style="margin-top:24px">
+        <div class="muted" style="font-size:16px; margin-bottom:12px;">Select Scan Mode</div>
+        <div class="home-grid">
+          <div class="card" role="button" tabindex="0" onclick="openScanner('food')">
+            <div class="icon">🍎</div>
+            <div class="title">Food Analysis</div>
+            <div class="subtitle">Detect bacteria & fungi in fresh produce, meat, dairy</div>
+          </div>
+
+          <div class="card" role="button" tabindex="0" onclick="openScanner('environment')">
+            <div class="icon">🏠</div>
+            <div class="title">Surface Scan</div>
+            <div class="subtitle">Inspect countertops, utensils, living spaces</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        🚀 Production-Ready Demo • Replace <code>mockDetect()</code> with your TensorFlow/YOLO model API
+      </div>
+    </section>
+
+    <section id="page-scanner" class="page" aria-hidden="true">
+      <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px">
+        <button class="btn ghost" onclick="showPage('home')" aria-label="Back to Home">
+          <span>←</span> Home
+        </button>
+        <div style="font-weight:800; font-size:20px;" id="scannerModeLabel">Scanning Mode</div>
+      </div>
+
+      <div class="scanner-wrap" role="region" aria-label="Advanced Scanner Controls">
+        <div class="panel">
+          <div class="control">
+            <label>Scan Mode</label>
+            <div class="seg">
+              <button id="segFood" class="active" onclick="setMode('food')">Food</button>
+              <button id="segEnv" onclick="setMode('environment')">Environment</button>
+            </div>
+          </div>
+
+          <div class="control">
+            <label>Image Source</label>
+            <input id="fileInput" type="file" accept="image/*" aria-label="Upload food or surface image" />
+            <div class="camera-row">
+              <video id="cam" autoplay playsinline muted class="hidden" aria-hidden="true"></video>
+            </div>
+            <div class="camera-actions">
+              <button id="openCamBtn" class="btn primary">📷 Open Camera</button>
+              <button id="captureBtn" class="btn ghost hidden">📸 Capture</button>
+              <button id="stopCamBtn" class="btn ghost hidden">⏹️ Stop Camera</button>
+            </div>
+          </div>
+
+          <div class="control">
+            <label>AI Settings</label>
+            <div style="display:flex; gap:16px; align-items:center;">
+              <div style="flex:1">
+                <div class="muted" style="margin-bottom:6px;">Detection Sensitivity</div>
+                <input id="sensitivity" type="range" min="1" max="10" value="6" style="width:100%; height:6px;" />
+                <div style="display:flex; justify-content:space-between; font-size:12px; margin-top:4px;">
+                  <span>Low</span>
+                  <span id="sensValue">6</span>
+                  <span>High</span>
+                </div>
+              </div>
+              <div style="width:120px;">
+                <div class="muted" style="margin-bottom:6px;">Super-Resolution</div>
+                <select id="srSelect" style="width:100%; padding:10px; border-radius:12px; background:rgba(255,255,255,0.1); border:1px solid var(--border-subtle); color:var(--text-primary);">
+                  <option value="off">Off</option>
+                  <option value="1x" selected>1× Native</option>
+                  <option value="2x">2× Enhanced</option>
+                  <option value="4x">4× Ultra</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="control">
+            <button id="scanBtn" class="btn primary block">
+              <span id="scanText">🚀 Analyze Image</span>
+              <div id="scanSpinner" class="loading hidden">
+                <div class="spinner"></div>
+                AI Processing...
+              </div>
+            </button>
+            <button id="clearBtn" class="btn ghost block" style="margin-top:12px">🗑️ Clear & Reset</button>
+          </div>
+        </div>
+
+        <div class="panel canvas-wrap" aria-live="polite">
+          <canvas id="preview" width="800" height="480" role="img" aria-label="Live preview and detection overlay" tabindex="-1"></canvas>
+        </div>
+      </div>
+
+      <div class="footer">
+  Safety Threshold: 
+  <strong>&lt;40 Unsafe (🔴)</strong> | 
+  <strong>40–70 Moderate (🟠)</strong> | 
+  <strong>&gt;70 Safe (🟢)</strong> 
+  • Sensitivity affects detection count • Super-Res improves small microbe visibility
+</div>
+
+    </section>
+
+    <section id="page-results" class="page" aria-hidden="true">
+      <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px">
+        <button class="btn ghost" onclick="showPage('scanner')" aria-label="Back to Scanner">← New Scan</button>
+        <div style="font-weight:800; font-size:20px;">Analysis Results</div>
+      </div>
+
+      <div class="results-grid">
+        <div class="panel">
+          <div class="score-card">
+            <div class="score-ring" id="scoreRing">--</div>
+            <div>
+              <div class="score-title" style="font-size:16px; font-weight:700;">Overall Safety Score</div>
+              <div id="decision" class="badge" style="font-size:16px;">Analyzing...</div>
+            </div>
+          </div>
+
+          <hr style="border:none; border-top:1px solid var(--border-subtle); margin:24px 0; opacity:0.5">
+
+          <h3 style="margin:0 0 16px 0; font-size:20px; font-weight:700;">🦠 Detected Microorganisms</h3>
+          <div id="detectedList" style="min-height:60px;"></div>
+
+          <hr style="border:none; border-top:1px solid var(--border-subtle); margin:24px 0; opacity:0.5">
+
+          <h3 style="margin:0 0 16px 0; font-size:20px; font-weight:700;">🛡️ Recommended Actions</h3>
+          <ul id="precautionsList"></ul>
+
+          <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap;">
+            <button class="btn primary" onclick="downloadReport()">📊 Download JSON Report</button>
+            <button class="btn ghost" onclick="downloadImage()">🖼️ Download Annotated Image</button>
+            <button class="btn primary" onclick="showPage('scanner')">🔄 New Analysis</button>
+          </div>
+        </div>
+
+        <div class="panel" style="display:flex; flex-direction:column; gap:16px; align-items:center; justify-content:flex-start; min-height:500px;">
+          <div style="width:100%; display:flex; justify-content:center; position:relative;">
+            <canvas id="resultCanvas" width="600" height="420" style="border-radius:16px; background:#000; box-shadow:var(--shadow-main);"></canvas>
+          </div>
+          <div id="meta" class="muted" style="width:100%; text-align:center; padding:12px; background:rgba(0,0,0,0.2); border-radius:12px;"></div>
+        </div>
+      </div>
+
+      <div class="footer">
+        🔬 Smart MicroVision Demo • Powered by AI Computer Vision • Ready for TensorFlow.js / Backend API Integration
+      </div>
+    </section>
+  </div>
+
+  <!-- Enhanced JavaScript - Identical Logic + Polish -->
+  <script>
+    /* ====== Enhanced State Management ====== */
+    const pages = { home: 'page-home', scanner: 'page-scanner', results: 'page-results' };
+    let appState = { 
+      mode: 'food', 
+      img: null, 
+      detections: null, 
+      score: null, 
+      precautions: null, 
+      imageDataURL: null 
+    };
+
+    // Enhanced Page Transitions
+    function showPage(name) {
+      document.querySelectorAll('.page').forEach((el, i) => {
+        if (pages[name] === el.id) { 
+          el.classList.add('active'); 
+          el.setAttribute('aria-hidden', 'false');
+          setTimeout(() => el.style.animationPlayState = 'running', 10);
+        } else { 
+          el.classList.remove('active'); 
+          el.setAttribute('aria-hidden', 'true');
+        }
+      });
+      
+      if (name === 'scanner') {
+        document.getElementById('scannerModeLabel').textContent = 
+          appState.mode === 'food' ? 'Food Analysis' : 'Environment Scan';
+      }
+      if (name === 'results') renderResults();
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openScanner(mode) {
+      appState.mode = mode; 
+      setSegButtons(mode);
+      showPage('scanner');
+    }
+
+    function setMode(mode) {
+      appState.mode = mode; 
+      setSegButtons(mode);
+    }
+    
+    function setSegButtons(mode) {
+      document.getElementById('segFood').classList.toggle('active', mode === 'food');
+      document.getElementById('segEnv').classList.toggle('active', mode === 'environment');
+      document.getElementById('scannerModeLabel').textContent = 
+        mode === 'food' ? 'Food Analysis' : 'Environment Scan';
+    }
+
+    /* ====== Camera & File Handling - Enhanced ====== */
+    const fileInput = document.getElementById('fileInput');
+    const openCamBtn = document.getElementById('openCamBtn');
+    const captureBtn = document.getElementById('captureBtn');
+    const stopCamBtn = document.getElementById('stopCamBtn');
+    const preview = document.getElementById('preview');
+    const pctx = preview.getContext('2d');
+    const camVideo = document.getElementById('cam');
+    let mediaStream = null;
+
+    // Sensitivity display update
+    document.getElementById('sensitivity').addEventListener('input', (e) => {
+      document.getElementById('sensValue').textContent = e.target.value;
+    });
+
+    fileInput.addEventListener('change', async (e) => {
+      stopCamera();
+      const f = e.target.files[0];
+      if (!f) return;
+      try {
+        const url = URL.createObjectURL(f);
+        const img = await loadImage(url);
+        drawImageCentered(img, preview, pctx);
+        appState.img = img;
+        appState.imageDataURL = preview.toDataURL('image/png', 0.95);
+      } catch (err) {
+        alert('Image load failed. Try another file.');
+      }
+    });
+
+    openCamBtn.addEventListener('click', async () => {
+      try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({ 
+          video: { 
+            facingMode: 'environment',
+            width: { ideal: 1280 },
+            height: { ideal: 720 }
+          }, 
+          audio: false 
+        });
+        camVideo.srcObject = mediaStream;
+        camVideo.classList.remove('hidden');
+        openCamBtn.classList.add('hidden');
+        captureBtn.classList.remove('hidden');
+        stopCamBtn.classList.remove('hidden');
+      } catch (err) {
+        console.error('Camera error:', err);
+        alert(`Camera access failed: ${err.name === 'NotAllowedError' ? 'Please grant camera permission in browser settings.' : err.message}`);
+      }
+    });
+
+    captureBtn.addEventListener('click', () => {
+      if (!mediaStream || !camVideo.videoWidth) { 
+        alert('Camera not ready. Please wait for video feed.'); 
+        return; 
+      }
+      preview.width = 800; 
+      preview.height = 480;
+      pctx.drawImage(camVideo, 0, 0, preview.width, preview.height);
+      const img = new Image();
+      img.onload = () => {
+        drawImageCentered(img, preview, pctx);
+        appState.img = img;
+        appState.imageDataURL = preview.toDataURL('image/png', 0.95);
+      };
+      img.src = preview.toDataURL('image/png', 0.95);
+    });
+
+    stopCamBtn.addEventListener('click', stopCamera);
+    
+    function stopCamera() {
+      if (mediaStream) {
+        mediaStream.getTracks().forEach(t => t.stop());
+        mediaStream = null;
+      }
+      camVideo.classList.add('hidden');
+      captureBtn.classList.add('hidden');
+      stopCamBtn.classList.add('hidden');
+      openCamBtn.classList.remove('hidden');
+      camVideo.srcObject = null;
+    }
+
+    // Image utilities
+    function loadImage(src) {
+      return new Promise((res, rej) => { 
+        const img = new Image(); 
+        img.crossOrigin = 'anonymous';
+        img.onload = () => res(img); 
+        img.onerror = rej; 
+        img.src = src; 
+      });
+    }
+
+    function drawImageCentered(img, canvas, ctx) {
+      const W = canvas.width = 800, H = canvas.height = 480;
+      const ratio = Math.min(W / img.width, H / img.height);
+      const w = img.width * ratio, h = img.height * ratio;
+      const x = (W - w) / 2, y = (H - h) / 2;
+      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = '#f8fbff';
+      ctx.fillRect(0, 0, W, H);
+      ctx.drawImage(img, x, y, w, h);
+      ctx.strokeStyle = 'rgba(110,168,255,0.2)'; 
+      ctx.lineWidth = 3; 
+      ctx.strokeRect(x, y, w, h);
+    }
+
+    /* ====== Enhanced Backend API Call ====== */
+   async function callBackendAPI(imageDataURL, mode, sensitivity, sr_mode) {
+  const response = await fetch('/api/detect', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+      image: imageDataURL, 
+      mode, 
+      sensitivity, 
+      sr_mode,
+      timestamp: Date.now()
+    })
+  });
+  if (!response.ok) throw new Error(`API ${response.status}`);
+  const result = await response.json();
+  return result;  // Return FULL result, not just detections
+}
+    /* ====== Scan Button - Enhanced with Loading ====== */
+   document.getElementById('scanBtn').addEventListener('click', async () => {
+  if (!appState.img) { 
+    alert('👆 Please upload an image or capture from camera first.');
+    return; 
+  }
+  
+  // Show loading (unchanged)
+  const scanBtn = document.getElementById('scanBtn');
+  const scanText = document.getElementById('scanText');
+  const scanSpinner = document.getElementById('scanSpinner');
+  scanBtn.disabled = true;
+  scanText.classList.add('hidden');
+  scanSpinner.classList.remove('hidden');
+  
+  const sr_mode = document.getElementById('srSelect').value;
+  const sens = Number(document.getElementById('sensitivity').value || 6);
+  
+  // **Backend handles everything now**
+  const result = await callBackendAPI(appState.imageDataURL, appState.mode, sens, sr_mode);
+  
+  // Restore button
+  scanBtn.disabled = false;
+  scanText.classList.remove('hidden');
+  scanSpinner.classList.add('hidden');
+  
+  // Store results
+  appState.detections = result.detections;
+  appState.score = result.safety_score;
+  appState.precautions = result.precautions;
+  appState.imageDataURL = result.annotated_image;
+  
+  showPage('results');
+});
+
+
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      pctx.clearRect(0, 0, preview.width, preview.height);
+      pctx.fillStyle = '#0a0a14'; 
+      pctx.fillRect(0, 0, preview.width || 800, preview.height || 480);
+      pctx.fillStyle = 'rgba(0,188,212,0.85)';
+      pctx.font = '600 20px Inter, Arial';
+      pctx.fillText('Upload image or open camera → Capture → Analyze', 30, 60);
+      appState.img = null; 
+      appState.imageDataURL = null;
+      fileInput.value = '';
+      stopCamera();
+    });
+
+    /* ====== Enhanced Detection Visualization ====== */
+    function drawBoxesOnCanvas(dets, canvas, ctx) {
+      dets.forEach((d, i) => {
+        const delay = i * 100;
+        setTimeout(() => {
+          ctx.save();
+          ctx.lineWidth = 3;
+          ctx.strokeStyle = d.useful ? '#2ecc71' : '#ff4757';
+          ctx.fillStyle = d.useful ? 'rgba(46,204,113,0.2)' : 'rgba(255,71,87,0.2)';
+          ctx.shadowColor = d.useful ? '#2ecc71' : '#ff4757';
+          ctx.shadowBlur = 10;
+          ctx.fillRect(d.bbox[0], d.bbox[1], d.bbox[2], d.bbox[3]);
+          ctx.strokeRect(d.bbox[0], d.bbox[1], d.bbox[2], d.bbox[3]);
+          
+          // Label background
+          const label = `${d.label} ${Math.round(d.confidence * 100)}%`;
+          ctx.font = 'bold 14px Inter, Arial';
+          const tw = ctx.measureText(label).width + 12;
+          ctx.fillStyle = d.useful ? '#2ecc71' : '#ff4757';
+          ctx.shadowBlur = 15;
+          ctx.fillRect(d.bbox[0], d.bbox[1] - 22, tw, 20);
+          
+          // Label text
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = '#ffffff';
+          ctx.fillText(label, d.bbox[0] + 6, d.bbox[1] - 6);
+          ctx.restore();
+        }, delay);
+      });
+    }
+
+    /* ====== Enhanced Detection Catalog ====== */
+    const CATALOG = {
+      food: {
+        useful: ["Lactobacillus", "Bifidobacterium", "Saccharomyces boulardii", "Propionibacterium"],
+        harmful: ["E.coli", "Salmonella", "Staphylococcus aureus", "Listeria monocytogenes", "Aspergillus flavus", "Penicillium", "Candida albicans", "Clostridium perfringens", "Bacillus cereus"]
+      },
+      environment: {
+        useful: ["Rhizobium", "Nitrosomonas", "Trichoderma", "Bacillus subtilis"],
+        harmful: ["Aspergillus fumigatus", "Fusarium", "Stachybotrys chartarum", "Pseudomonas aeruginosa", "Vibrio cholerae", "Klebsiella pneumoniae", "Candida tropicalis", "Enterococcus faecalis", "Legionella"]
+      }
+    };
+
+    function mockDetect(mode, sens) {
+      const cats = CATALOG[mode];
+      const w = preview.width || 800, h = preview.height || 480;
+      const nUseful = Math.floor(Math.random() * (2 + sens / 3)) + 0;
+      const nHarm = Math.floor(Math.random() * (3 + sens / 2)) + 0;
+      const picks = [];
+      
+      // Useful detections
+      shuffle([...cats.useful]).slice(0, nUseful).forEach(l => 
+        picks.push(spawn(l, true, w, h))
+      );
+      
+      // Harmful detections
+      shuffle([...cats.harmful]).slice(0, nHarm).forEach(l => 
+        picks.push(spawn(l, false, w, h))
+      );
+      
+      return picks.sort((a, b) => b.confidence - a.confidence);
+    }
+    
+    function spawn(label, useful, w, h) {
+      const bw = Math.random() * 120 + 60, bh = Math.random() * 80 + 40;
+      const x = Math.random() * (w - bw - 20) + 10;
+      const y = Math.random() * (h - bh - 60) + 40;
+      const conf = Math.max(0.4, Math.random() * 0.55 + 0.45);
+      return { label, useful, confidence: conf, bbox: [x, y, bw, bh] };
+    }
+    
+    function randRange(a, b) { return Math.random() * (b - a) + a; }
+    function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+    function shuffle(a) { 
+      for (let i = a.length - 1; i > 0; i--) { 
+        const j = Math.floor(Math.random() * (i + 1)); 
+        [a[i], a[j]] = [a[j], a[i]]; 
+      }
+      return a; 
+    }
+
+    /* ====== Advanced Scoring Algorithm ====== */
+    function computeScore(detections, sens) {
+      let score = 100;
+      const baseHarm = 20, baseGood = 8;
+      const sensFactor = Math.max(1, Math.min(10, sens)) / 8;
+      
+      detections.forEach(d => {
+        if (d.useful) {
+          score += baseGood * d.confidence;
+        } else {
+          score -= baseHarm * d.confidence * sensFactor;
+          // Critical pathogens penalty
+          if (["E.coli", "Salmonella", "Listeria", "Staphylococcus aureus", "Vibrio cholerae"].includes(d.label)) {
+            score -= 12 * d.confidence;
+          }
+        }
+      });
+      
+      return Math.max(0, Math.min(100, Math.round(score)));
+    }
+
+    /* ====== Context-Aware Precautions ====== */
+    function buildPrecautions(dets, mode) {
+      const names = dets.map(d => d.label);
+      const out = [];
+      
+      if (mode === 'food') {
+        if (names.some(n => ["Salmonella", "E.coli", "Listeria"].includes(n))) {
+          out.push("🚨 CRITICAL: Discard immediately. Do not taste or consume.");
+          out.push("Clean surfaces with 1:10 bleach solution or food-safe disinfectant.");
+        }
+        if (names.some(n => ["Aspergillus", "Penicillium"].includes(n))) {
+          out.push("Mold detected: Discard porous foods entirely. Do not scrape off.");
+        }
+        if (names.includes("Staphylococcus aureus")) {
+          out.push("Staph risk: Cook to internal 74°C (165°F), avoid room-temp storage.");
+        }
+        out.push("Always wash hands, utensils, and cutting boards with hot soapy water.");
+        out.push("Store at ≤4°C (39°F). Separate raw meats from ready-to-eat foods.");
+      } else {
+        if (names.some(n => ["Stachybotrys", "Aspergillus fumigatus"].includes(n))) {
+          out.push("🚨 Mold hazard: Wear N95 mask + gloves. Professional remediation recommended.");
+        }
+        if (names.includes("Legionella")) {
+          out.push("Legionella risk: Check water systems, improve ventilation.");
+        }
+        out.push("Disinfect with EPA-approved antimicrobial agents per label instructions.");
+        out.push("Improve airflow, reduce humidity below 50%, fix moisture sources.");
+      }
+      
+      if (!dets.some(d => !d.useful)) {
+        out.unshift("✅ No harmful pathogens detected. Continue standard hygiene practices.");
+      }
+      
+      return Array.from(new Set(out.slice(0, 6))); // Limit to top 6
+    }
+
+    /* ====== Premium Results Rendering ====== */
+    function renderResults() {
+      const data = appState;
+      
+      // Score ring animation
+      const score = data.score ?? '--';
+      const scoreRing = document.getElementById('scoreRing');
+      scoreRing.textContent = score;
+      if (typeof score === 'number') {
+        const deg = Math.max(0, Math.min(360, (score / 100) * 360));
+        let color;
+if (score < 40) {
+  color = 'var(--danger)';
+} else if (score <= 70) {
+  color = '#ffa502';
+} else {
+  color = 'var(--success)';
+}
+
+        scoreRing.style.background = `conic-gradient(${color} 0deg ${deg}deg, rgba(36,48,85,0.9) ${deg}deg 360deg)`;
+        if (score < 40) {
+  scoreRing.style.boxShadow = '0 0 30px rgba(255,71,87,0.6)';
+} else if (score <= 70) {
+  scoreRing.style.boxShadow = '0 0 30px rgba(255,165,2,0.6)';
+} else {
+  scoreRing.style.boxShadow = '0 0 30px rgba(46,204,113,0.6)';
+}
+}
+
+      // Decision badge
+      // Decision badge
+const decision = document.getElementById('decision');
+
+if (typeof score === 'number') {
+
+  if (score < 40) {
+    decision.textContent = '❌ UNSAFE';
+    decision.className = 'badge bad';
+  } 
+  else if (score >= 40 && score <= 70) {
+    decision.textContent = '⚠ MODERATE';
+    decision.className = 'badge moderate';
+  } 
+  else {
+    decision.textContent = '✅ SAFE';
+    decision.className = 'badge ok';
+  }
+
+} else {
+  decision.textContent = '—';
+}
+
+
+      // Enhanced detections
+      const detectedList = document.getElementById('detectedList');
+      detectedList.innerHTML = '';
+      if (data.detections?.length) {
+        data.detections.forEach((d, i) => {
+          const span = document.createElement('span');
+          span.className = `pill ${d.useful ? 'useful' : 'harmful'}`;
+          span.textContent = `${d.label} • ${Math.round(d.confidence * 100)}%`;
+          span.style.animationDelay = `${i * 0.1}s`;
+          detectedList.appendChild(span);
+        });
+      } else {
+        detectedList.innerHTML = '<div style="text-align:center; padding:24px; opacity:0.7;">No microorganisms detected<br><small>Try increasing sensitivity</small></div>';
+      }
+
+      // Precautions list
+      const precList = document.getElementById('precautionsList');
+      precList.innerHTML = '';
+      if (data.precautions?.length) {
+        data.precautions.forEach((p, i) => {
+          const li = document.createElement('li'); 
+          li.textContent = p; 
+          li.style.animationDelay = `${i * 0.1}s`;
+          precList.appendChild(li);
+        });
+      }
+
+      // Annotated result image
+      const rc = document.getElementById('resultCanvas'); 
+      const rctx = rc.getContext('2d');
+      if (data.imageDataURL) {
+        const img = new Image();
+        img.onload = () => {
+          const W = rc.width = 600, H = rc.height = 420;
+          const ratio = Math.min(W / img.width, H / img.height);
+          const w = img.width * ratio, h = img.height * ratio;
+          const x = (W - w) / 2, y = (H - h) / 2;
+          
+          rctx.clearRect(0, 0, W, H);
+          rctx.fillStyle = '#0a0a14'; 
+          rctx.fillRect(0, 0, W, H);
+          rctx.drawImage(img, x, y, w, h);
+          
+          if (data.detections) {
+            const sx = w / (preview.width || 800), sy = h / (preview.height || 480);
+            data.detections.forEach(d => {
+              const bx = x + d.bbox[0] * sx, by = y + d.bbox[1] * sy, 
+                    bw = d.bbox[2] * sx, bh = d.bbox[3] * sy;
+              rctx.lineWidth = 3; 
+              rctx.strokeStyle = d.useful ? '#2ecc71' : '#ff4757';
+              rctx.fillStyle = d.useful ? 'rgba(46,204,113,0.2)' : 'rgba(255,71,87,0.2)';
+              rctx.shadowColor = d.useful ? '#2ecc71' : '#ff4757';
+              rctx.shadowBlur = 12;
+              rctx.fillRect(bx, by, bw, bh);  
+              rctx.strokeRect(bx, by, bw, bh);
+              
+              const label = `${d.label} ${Math.round(d.confidence * 100)}%`;
+              rctx.font = 'bold 13px Inter, Arial';
+              rctx.shadowBlur = 0;
+              const tw = rctx.measureText(label).width + 10;
+              rctx.fillStyle = d.useful ? '#2ecc71' : '#ff4757';
+              rctx.fillRect(bx, by - 18, tw, 18);
+              rctx.fillStyle = '#ffffff'; 
+              rctx.fillText(label, bx + 5, by - 4);
+            });
+          }
+        };
+        img.src = data.imageDataURL;
+      }
+      
+      // Metadata
+      document.getElementById('meta').textContent = 
+        `Mode: ${appState.mode.toUpperCase()} | Score: ${score ?? '--'} | ${new Date().toLocaleString('en-US', { 
+          weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' 
+        })}`;
+    }
+
+    /* ====== Download Functions ====== */
+    function downloadReport() {
+      const payload = { 
+        app: 'Smart MicroVision Pro',
+        mode: appState.mode, 
+        timestamp: new Date().toISOString(), 
+        safety_score: appState.score, 
+        detections: appState.detections, 
+        precautions: appState.precautions,
+        settings: {
+          sensitivity: document.getElementById('sensitivity').value,
+          super_resolution: document.getElementById('srSelect').value
+        }
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); 
+      a.href = url; 
+      a.download = `SmartMicroVision_Report_${new Date().toISOString().slice(0,19).replace(/:/g,'-')}.json`; 
+      document.body.appendChild(a);
+      a.click(); 
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+    
+    function downloadImage() {
+      const rc = document.getElementById('resultCanvas'); 
+      const url = rc.toDataURL('image/png', 0.95);
+      const a = document.createElement('a'); 
+      a.href = url; 
+      a.download = `SmartMicroVision_Annotated_${Date.now()}.png`; 
+      document.body.appendChild(a);
+      a.click(); 
+      document.body.removeChild(a);
+    }
+
+    /* ====== Keyboard Navigation ====== */
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') showPage('home');
+      if (e.key === 'Enter' && document.activeElement?.closest('.card')) {
+        const mode = document.activeElement.onclick.toString().match(/'([^']+)'/)?.[1];
+        if (mode) openScanner(mode);
+      }
+    });
+
+    /* ====== Initialization ====== */
+    window.addEventListener('load', () => {
+      // Enhanced placeholder
+      pctx.fillStyle = '#0a0a14'; 
+      pctx.fillRect(0, 0, preview.width, preview.height);
+      pctx.fillStyle = 'rgba(110,168,255,0.95)'; 
+      pctx.font = '600 22px Inter, Arial';
+      pctx.fillText('👆 Upload or tap 📷 Camera → Capture → Analyze', 40, 80);
+      pctx.fillStyle = 'rgba(255,255,255,0.6)'; 
+      pctx.font = '400 14px Inter, Arial';
+      pctx.fillText('Supports JPG, PNG, WEBP up to 10MB', 40, 420);
+      
+      showPage('home');
+      
+      // PWA-like offline notice
+      window.addEventListener('online', () => {});
+    });
+
+    // Prevent zoom on iOS
+    document.addEventListener('touchstart', function(event) {
+      if (event.touches.length > 1) event.preventDefault();
+    }, { passive: false });
+  </script>
+</body>
+</html>

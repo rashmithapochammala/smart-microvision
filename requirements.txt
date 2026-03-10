@@ -1,0 +1,12 @@
+Flask
+flask-cors
+numpy
+opencv-python
+Pillow
+tensorflow
+keras
+torch
+torchvision
+basicsr
+realesrgan
+gunicorn
