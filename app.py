@@ -192,9 +192,12 @@ def deterministic_detect(image_hash, mode="food", width=800, height=480):
 # ROUTE 1: Serve Frontend
 # -----------------------------
 
+from flask import render_template
+
 @app.route("/")
 def home():
-    return send_from_directory(".", "index.html")
+    return render_template("index.html")
+
 
 # -----------------------------
 # ROUTE 2: API Detect
